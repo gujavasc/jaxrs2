@@ -15,6 +15,13 @@ public class Repository <T>{
 		return books;
 	}
 	
+	protected List<Book> getListByYearAndName(Integer year, String name){
+		List<Book> books = new ArrayList<Book>();
+		books.add(new Book(1, "Book 1", "Description1..."));
+		books.add(new Book(2, "Book 2", "Description2..."));
+		return books;
+	}
+	
 	protected Book createObject(Book book){
 		return book;
 	}
