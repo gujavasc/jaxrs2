@@ -8,6 +8,7 @@
 	<packaging>war</packaging>
 
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	    <version.gson>2.2.4</version.gson>
         <version.commons-io>2.4</version.commons-io>
         <version.commons-codec>1.7</version.commons-codec>
@@ -88,10 +89,6 @@
 			</exclusions>
 		</dependency>
 	</dependencies>
-
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
 
 	<build>
 		<plugins>
