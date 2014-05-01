@@ -1,4 +1,4 @@
-package org.gujava.repository;
+package org.gujavasc.repository;
 
 import java.util.ArrayList;
 import java.util.List;

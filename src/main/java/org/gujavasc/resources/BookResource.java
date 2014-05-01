@@ -12,8 +12,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
-import org.gujava.repository.Repository;
 import org.gujavasc.entity.Book;
+import org.gujavasc.repository.Repository;
 
 @Path("books")
 public class BookResource extends Repository<Book>{
