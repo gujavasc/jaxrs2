@@ -11,6 +11,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Link;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
@@ -24,15 +25,15 @@ public class BookResource extends Repository<Book>{
 	@GET
 	@Path("/filter/{year}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response list(@PathParam("year") Integer year, @QueryParam("name") String name){
+	public Response listByYearAndName(@PathParam("year") Integer year, @QueryParam("name") String name){
 		List<Book> books = getListByYearAndName(year, name);
 		ResponseBuilder rb = Response.ok(books);
-		rb.link("http://localhost:8080/rest-example/resources", "books");
-		rb.link("http://localhost:8080/rest-example/resources", "books2");
 		return rb.build();
 	}
 	
+	
 	@GET
+	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response list(){
 		ResponseBuilder rb = Response.ok(getList());
@@ -50,8 +51,13 @@ public class BookResource extends Repository<Book>{
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response read(@PathParam("id") Integer id){
-		ResponseBuilder rb = Response.ok(readObject(id));
-		return rb.build();
+		Link listLink = Link.fromPath("http://localhost:8080/rest-example/resources/books/")
+				.rel("list")
+				.build();
+		return Response.ok(readObject(id))
+				.link("http://localhost:8080/rest-example/resources/books/purchase", "purchase")
+				.links(listLink)
+				.build();
 	}
 	
 	@PUT
