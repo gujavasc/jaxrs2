@@ -11,9 +11,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Link;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
 import org.gujavasc.entity.Book;
@@ -50,13 +52,14 @@ public class BookResource extends Repository<Book>{
 	@GET
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response read(@PathParam("id") Integer id){
-		Link listLink = Link.fromPath("http://localhost:8080/rest-example/resources/books/")
+	public Response read(@PathParam("id") Integer id, @Context UriInfo uriInfo){
+		System.out.println(uriInfo.getBaseUri());
+		Link listLink = Link.fromPath(uriInfo.getBaseUri() + "books")
 				.rel("list")
 				.build();
 		return Response.ok(readObject(id))
-				.link("http://localhost:8080/rest-example/resources/books/purchase", "purchase")
 				.links(listLink)
+				.link(uriInfo.getBaseUri() + "purchase", "purchase")
 				.build();
 	}
 	
