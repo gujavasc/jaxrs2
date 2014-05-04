@@ -1,7 +1,6 @@
 package org.gujavasc.test;
 
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
 
 import java.lang.reflect.Type;
@@ -27,7 +26,7 @@ import com.google.gson.reflect.TypeToken;
 public class BookResourceTest {
 
     @Test
-    public void deveConterLivros() throws Exception {
+    public void deveConterLivros_javaee6() throws Exception {
         URL url = new URL("http://localhost:8080/rest-example/resources/books");
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         String result = IOUtils.toString(con.getInputStream(), "UTF-8");
@@ -36,7 +35,7 @@ public class BookResourceTest {
         Type returnType = new TypeToken<Collection<Book>>() {}.getType();
         List<Book> books = new Gson().fromJson(result, returnType);
 
-        assertThat(books, not(empty()));
+        assertThat(books, hasSize(3));
     }
 
     //@formatter:off
@@ -49,7 +48,7 @@ public class BookResourceTest {
                                  .request(MediaType.APPLICATION_JSON)
                                  .get(new GenericType<List<Book>>(){});
         
-        assertThat(books, not(empty()));
+        assertThat(books, hasSize(3));
     }
     //@formatter:on
 
@@ -68,7 +67,7 @@ public class BookResourceTest {
         Builder request = withParam.request(MediaType.APPLICATION_JSON);
         List<Book> booksResult = request.get(new GenericType<List<Book>>(){});
         
-        assertThat(booksResult, not(empty()));
+        assertThat(booksResult, hasSize(2));
     }
     //@formatter:on
 
