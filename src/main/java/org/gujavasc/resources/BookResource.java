@@ -15,8 +15,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Link;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.ResponseBuilder;
+import javax.ws.rs.core.UriInfo;
 
 import org.gujavasc.entity.Book;
 import org.gujavasc.repository.Repository;
@@ -25,14 +25,13 @@ import org.gujavasc.repository.Repository;
 public class BookResource extends Repository<Book>{
 	
 	@GET
-	@Path("/filter/{year}")
+	@Path("/year/{year}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response listByYearAndName(@PathParam("year") Integer year, @QueryParam("name") String name){
 		List<Book> books = getListByYearAndName(year, name);
 		ResponseBuilder rb = Response.ok(books);
 		return rb.build();
 	}
-	
 	
 	@GET
 	@Path("/")
@@ -53,13 +52,13 @@ public class BookResource extends Repository<Book>{
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response read(@PathParam("id") Integer id, @Context UriInfo uriInfo){
-		System.out.println(uriInfo.getBaseUri());
-		Link listLink = Link.fromPath(uriInfo.getBaseUri() + "books")
-				.rel("list")
+		System.out.println(uriInfo.getRequestUri().toString()+id+"/author");
+		Link listLink = Link.fromPath(uriInfo.getRequestUri().toString()+"/author")
+				.rel("author")
 				.build();
 		return Response.ok(readObject(id))
 				.links(listLink)
-				.link(uriInfo.getBaseUri() + "purchase", "purchase")
+				.link(uriInfo.getRequestUri().toString()+"/genre/programming", "genre")
 				.build();
 	}
 	
