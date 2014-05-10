@@ -2,6 +2,8 @@ package org.gujavasc.resources;
 
 import java.util.List;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -27,7 +29,7 @@ public class BookResource extends Repository<Book> {
     @GET
     @Path("/year/{year}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response listByYearAndName(@PathParam("year") Integer year, @QueryParam("name") String name) {
+    public Response listByYearAndName(@Max(2015) @PathParam("year") Integer year, @QueryParam("name") String name) {
         List<Book> books = getListByYearAndName(year, name);
         ResponseBuilder rb = Response.ok(books);
         return rb.build();
