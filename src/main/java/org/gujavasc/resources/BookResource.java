@@ -3,7 +3,6 @@ package org.gujavasc.resources;
 import java.util.List;
 
 import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -54,12 +53,14 @@ public class BookResource extends Repository<Book> {
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response read(@PathParam("id") Integer id, @Context UriInfo uriInfo) throws InterruptedException {
-        System.out.println(uriInfo.getRequestUri().toString() + id + "/author");
-        Link listLink = Link.fromPath(uriInfo.getRequestUri().toString() + "/author").rel("author").build();
+        Link purchaseLink = Link.fromPath(uriInfo.getRequestUri().toString() + "/purchase").rel("purchase").build();
 
         Thread.sleep(5000L);
 
-        return Response.ok(readObject(id)).links(listLink).link(uriInfo.getRequestUri().toString() + "/genre/programming", "genre").build();
+        return Response.ok(readObject(id))
+        		.links(purchaseLink)
+        		.link(uriInfo.getRequestUri().toString() + "/genre/programming", "genre")
+        		.build();
     }
 
     @PUT
